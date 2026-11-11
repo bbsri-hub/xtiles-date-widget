@@ -1,50 +1,77 @@
 
-<div id="date-widget">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Date Widget</title>
+
+  <!-- Elegant italic font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 20px 15px;
+      background: #B96F91;
+      font-family: 'Playfair Display', serif;
+      color: #FFFFFF;
+      text-align: center;
+      font-style: italic;
+      border-radius: 12px;
+    }
+
+    #weekday {
+      font-size: 34px;
+      font-weight: 600;
+      text-shadow: 0px 1px 2px rgba(0,0,0,0.12);
+    }
+
+    #full-date {
+      font-size: 22px;
+      margin-top: 5px;
+      font-weight: 400;
+      text-shadow: 0px 1px 2px rgba(0,0,0,0.12);
+    }
+  </style>
+</head>
+
+<body>
   <div id="weekday"></div>
   <div id="full-date"></div>
-</div>
 
-<style>
-  #date-widget {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    padding: 15px;
-  }
-  #weekday {
-    font-size: 30px;
-    font-weight: 600;
-  }
-  #full-date {
-    font-size: 21px;
-    margin-top: 5px;
-  }
-</style>
+  <script>
+    function updateDate() {
+      const now = new Date();
 
-<script>
-  function updateDate() {
-    const now = new Date();
+      const weekday = new Intl.DateTimeFormat(
+        "en-US", { weekday: "long" }
+      ).format(now);
 
-    document.getElementById("weekday").textContent =
-      new Intl.DateTimeFormat("en-US", {
-        weekday: "long"
-      }).format(now);
+      const month = new Intl.DateTimeFormat(
+        "en-US", { month: "long" }
+      ).format(now);
 
-    const month = now.toLocaleString("en-US", {
-      month: "long"
-    });
+      const day = now.getDate();
+      const year = now.getFullYear();
 
-    const day = now.getDate();
-    const year = now.getFullYear();
+      const suffix =
+        day % 100 >= 11 && day % 100 <= 13 ? "th" :
+        day % 10 === 1 ? "st" :
+        day % 10 === 2 ? "nd" :
+        day % 10 === 3 ? "rd" : "th";
 
-    const suffix =
-      day % 10 === 1 && day !== 11 ? "st" :
-      day % 10 === 2 && day !== 12 ? "nd" :
-      day % 10 === 3 && day !== 13 ? "rd" : "th";
+      document.getElementById("weekday").textContent =
+        weekday;
 
-    document.getElementById("full-date").textContent =
-      `${month} ${day}${suffix}, ${year}`;
-  }
+      document.getElementById("full-date").textContent =
+        `${month} ${day}${suffix}, ${year}`;
+    }
 
-  updateDate();
-  setInterval(updateDate, 60000);
-</script>
+    updateDate();
+    setInterval(updateDate, 60000);
+  </script>
+</body>
+</html>
