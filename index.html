@@ -1,0 +1,50 @@
+
+<div id="date-widget">
+  <div id="weekday"></div>
+  <div id="full-date"></div>
+</div>
+
+<style>
+  #date-widget {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 15px;
+  }
+  #weekday {
+    font-size: 30px;
+    font-weight: 600;
+  }
+  #full-date {
+    font-size: 21px;
+    margin-top: 5px;
+  }
+</style>
+
+<script>
+  function updateDate() {
+    const now = new Date();
+
+    document.getElementById("weekday").textContent =
+      new Intl.DateTimeFormat("en-US", {
+        weekday: "long"
+      }).format(now);
+
+    const month = now.toLocaleString("en-US", {
+      month: "long"
+    });
+
+    const day = now.getDate();
+    const year = now.getFullYear();
+
+    const suffix =
+      day % 10 === 1 && day !== 11 ? "st" :
+      day % 10 === 2 && day !== 12 ? "nd" :
+      day % 10 === 3 && day !== 13 ? "rd" : "th";
+
+    document.getElementById("full-date").textContent =
+      `${month} ${day}${suffix}, ${year}`;
+  }
+
+  updateDate();
+  setInterval(updateDate, 60000);
+</script>
